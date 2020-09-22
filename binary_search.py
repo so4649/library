@@ -14,23 +14,6 @@ def binary_search(data, value):
             right = mid - 1
     return -1            # 見つからなかった場合
 
-# めぐる式二分探索
-# f(x) = Trueとなるxの下限あるいは上限を求めるライブラリ
-# 参考1：https://twitter.com/meguru_comp/status/697008509376835584
-# 参考2：https://qiita.com/drken/items/97e37dd6143e33a64c8c
-# 範囲を上に開な半開区間で持つことで+1,-1が不要になり余計なバグを生みづらくなる
-# また、範囲を[l, r)でなく[ok, ng)あるいは[ng, ok)のように定義することで
-# 上限・下限のいずれを求めたいときも、abs(ok - ng) > 1という同じループ条件で
-# 動作させることができる
-# (上のライブラリも半開に書き換えた方がいいかも？)
-def binary_search_func(ok, ng, f):
-    while(abs(ok - ng) > 1):
-        med = (ok + ng) >> 1
-        if(f(med) == True):
-            ok = med
-        else:
-            ng = med
-    return ok
 
 # https://qiita.com/ta7uw/items/d6d8f0ddb215c3677cd3
 # 二分探索木
@@ -51,15 +34,29 @@ A = [1, 2, 3, 3, 3, 4, 4, 6, 6, 6, 6]
 index = bisect.bisect_right(A, 3) # 5
 
 
+# めぐる式二分探索
+# f(x) = Trueとなるxの下限あるいは上限を求めるライブラリ
+# 参考1：https://twitter.com/meguru_comp/status/697008509376835584
+# 参考2：https://qiita.com/drken/items/97e37dd6143e33a64c8c
+# 範囲を上に開な半開区間で持つことで+1,-1が不要になり余計なバグを生みづらくなる
+# また、範囲を[l, r)でなく[ok, ng)あるいは[ng, ok)のように定義することで
+# 上限・下限のいずれを求めたいときも、abs(ok - ng) > 1という同じループ条件で
+# 動作させることができる
+# (上のライブラリも半開に書き換えた方がいいかも？)
+def binary_search_func(ok, ng, f):
+    while(abs(ok - ng) > 1):
+        med = (ok + ng) // 2
+        if(f(med) == True):
+            ok = med
+        else:
+            ng = med
+    return ok
+
+
 
 # floatの時の,条件Cを満たす二分探索（蟻本）
 lb, ub = 0, 10**6
-# 小数型での二分探索は、小数の精度が10^{-15}程度しかないことから
-# ループの継続条件をub - lb > eps の形にした場合、
-# おおよそub * eps >= 10^{-15}の場合に
-# 常にub - lb > epsとなりループが終了しないことがあり危険
-# for i in range(100): の形式の方が余計なバグを生まず良い
-for i in range(100):
+while ub - lb > 1:#for i in range(100)みたいな時もある
     mid = (lb + ub) / 2
     if C(mid):
         lb = mid
