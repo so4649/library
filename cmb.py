@@ -1,4 +1,9 @@
-def cmb(n, r, mod):#コンビネーションの高速計算　
+# python3.8以降では逆元はpow(a,-1,mod)により計算できる
+# pypyでもフェルマーの小定理よりpow(a,mod-2,mod)により計算できる
+# いずれもO(loga)
+
+# コンビネーション(mod)の高速計算
+def cmb(n, r):
     if ( r<0 or r>n ):
         return 0
     r = min(r, n-r)
@@ -16,13 +21,24 @@ for i in range(2,N+1):
     inverse[i] = (-inverse[mod % i] * (mod//i)) % mod
     g2[i] = (g2[i-1] * inverse[i]) % mod
 
-print(cmb(5,2,mod))
+print(cmb(5,2))
+
+# n = 10**9, r <= 10**5とかの時、O(r)で求められる
+mod = 10**9+7
+def cmb(x, y):
+  ret = 1
+  for i in range(1, y+1):
+    ret = (ret * (x+1-i)) % mod
+    ret = (ret * pow(i, mod-2, mod)) % mod
+  return ret
 
 
 import math
 def p(n, r):
     return math.factorial(n) // math.factorial(n - r)
 def c(n, r):
+    if n < r:
+        return 0
     return math.factorial(n) // (math.factorial(n - r) * math.factorial(r))
 
 
