@@ -32,7 +32,7 @@ print(BIT_query(3))
 print(BIT_query(6)-BIT_query(2))
 
 
-# クラスを使う場合(複数のBITを使う時など)
+# クラスを使う場合
 class BIT:
     def __init__(self,len_A):
         self.N = len_A + 10
@@ -50,7 +50,7 @@ class BIT:
 
     # Ai += x
     # O(log N)
-    def update(self,i,x):
+    def add(self,i,x):
         idx = i+1
         while idx < self.N:
             self.bit[idx] += x
@@ -75,7 +75,7 @@ a = [1,2,3,4,5,6]
 
 bit = BIT(n)
 for i,e in enumerate(a):
-   bit.update(i+1,e)
+   bit.add(i+1,e)
 
 # すべて1-indexなので注意
 #A1~A3の和 : 6
@@ -84,11 +84,34 @@ print(bit.query(3))
 #A3~A6の和 : 18
 print(bit.query(6)-bit.query(2))
 
-bit.update(3,10)
+bit.add(3,10)
 print(bit.query(3))
 
 
 # 区間に足し算を行う場合（蟻本3-3-3)
+# 省略
+
+
+# 複数のBITを使う時（中のリストが独立な２次元リストなど）
+class Bit():
+  def __init__(self, N):
+    self.__N = N
+    self.__arr = [[0] * 26 for _ in range(1 + N)]
+    
+  def add_(self, x, a, i):
+    while(x < self.__N + 1):
+      self.__arr[x][i] += a
+      x += x & -x
+      
+  def sum_(self, x, i):
+    res = 0
+    while(x > 0):
+      res += self.__arr[x][i]
+      x -= x & -x
+    return res
+  
+  def sub_sum_(self, x, y, i):
+    return self.sum_(y, i) - self.sum_(x, i)
 
 
 # 反転数 O(NlogN)
