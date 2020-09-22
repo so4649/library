@@ -1,3 +1,5 @@
+# 最短距離でなく最長距離は151D参照
+
 # 2-1-3
 from collections import deque
 
