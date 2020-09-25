@@ -1,12 +1,11 @@
 # python3.8以降では逆元はpow(a,-1,mod)により計算できる
 # pypyでもフェルマーの小定理よりpow(a,mod-2,mod)により計算できる
-# いずれもO(loga)
+# 計算量はO(log a), O(log mod)
 
 # コンビネーション(mod)の高速計算
 def cmb(n, r):
-    if ( r<0 or r>n ):
+    if r < 0 or n < 0 or n < r:
         return 0
-    r = min(r, n-r)
     return g1[n] * g2[r] * g2[n-r] % mod
 mod = 10**9+7 #出力の制限
 N = 5*10**5 #Nの最大値
@@ -33,13 +32,25 @@ def cmb(x, y):
   return ret
 
 
-import math
+# math.factorial(n)はO(n)と低速。
+# 愚直に掛けていく方がO(min(r,n-r))となり高速に動作する
+
 def p(n, r):
-    return math.factorial(n) // math.factorial(n - r)
-def c(n, r):
-    if n < r:
+    if n < 0 or r < 0 or n < r:
         return 0
-    return math.factorial(n) // (math.factorial(n - r) * math.factorial(r))
+    res = 1
+        for i in range(r):
+            res *= n - i
+    return res
+
+def c(n, r):
+    if n < 0 or r < 0 or n < r:
+        return 0
+    r = min(r, n - r)
+    res = 1
+    for i in range(r):
+        res = res * (n - i) // (i + 1)
+    return res
 
 
 #itertools
