@@ -10,8 +10,10 @@ print(math.gcd(a, b))
 # 2
 
 # 最小公倍数
+# (x * y // gcd(x,y) とすると割られる数が大きくなって計算量が悪くなるので、
+# xはgcd(x,y)で割り切れるので、先に割ってから掛けた方が高速に動作する。)
 def lcm(x, y):
-    return (x * y) // math.gcd(x, y)
+    return x // math.gcd(x, y) * y
 
 print(lcm(a, b))
 # 12
@@ -43,6 +45,9 @@ print(gcd_list([27, 18, 9, 3]))
 
 # print(gcd_list(27, 18, 9, 3))
 # TypeError: gcd_list() takes 1 positional argument but 4 were given
+
+# 個人的には同じような関数が複数あると管理が厄介なので
+# listを入れるときはgcd(*[1,2,3])を使うようにした方がいいかなーと思いました
 
 def lcm_base(x, y):
     return (x * y) // math.gcd(x, y)
