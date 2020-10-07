@@ -21,14 +21,13 @@ for i in range(n):
     T.append(int(t))
     X.append(int(x))
     Y.append(int(y))
-
 # 参考：一個ずつ使う場合はこのような書き方が一番早いとされている
 import sys
 # 入力を最後まで一気に読むことで高速化
 M = map(int, sys.stdin.read().split())  
 txy = zip(M, M, M)
 for t, x, y in txy:
-  print(t, x, y)
+    print(t, x, y)
 
 #２次元の文字入力（迷路など）
 field = [list(input()) for i in range(n)]
@@ -99,7 +98,7 @@ class Fastio:
             self.flush()
  
 fastio = Fastio()
-rd = fastio.fastin # input
+rd = fastio.fastin # int(input())
 wtn = fastio.fastout # print
 atexit.register(fastio.flush)
 
