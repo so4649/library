@@ -56,7 +56,7 @@ def binary_search_func(ok, ng, f):
 
 # floatの時の,条件Cを満たす二分探索（蟻本）
 lb, ub = 0, 10**6
-for i in range(100):
+for i in range(100): # while ub - lb > 1:
     mid = (lb + ub) / 2
     if C(mid):
         lb = mid
