@@ -32,9 +32,6 @@ def cmb(x, y):
   return ret
 
 
-# math.factorial(n)はO(n)と低速。
-# 愚直に掛けていく方がO(min(r,n-r))となり高速に動作する
-
 def p(n, r):
     if n < 0 or r < 0 or n < r:
         return 0
@@ -42,7 +39,6 @@ def p(n, r):
         for i in range(r):
             res *= n - i
     return res
-
 def c(n, r):
     if n < 0 or r < 0 or n < r:
         return 0
@@ -51,7 +47,6 @@ def c(n, r):
     for i in range(r):
         res = res * (n - i) // (i + 1)
     return res
-
 
 #itertools
 import itertools
