@@ -47,3 +47,7 @@ def setup_pw(l):
         pw[i+1] = v = v * base % mod
 def get(h, l, r):
     return (h[r] - h[l] * pw[r-l]) % mod
+
+
+# その他は以下参照
+# https://tjkendev.github.io/procon-library/python/string/rolling_hash.html
