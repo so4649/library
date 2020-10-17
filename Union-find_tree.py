@@ -40,37 +40,43 @@ class UnionFind():
         return len(self.roots())
 
     def all_group_members(self):
-        return {r: self.members(r) for r in self.roots()}
+        self.group = {r:[] for r in self.roots()}
+        for i in range(self.n):
+            self.group[self.find(i)].append(i)
+        return self.group
 
     def __str__(self):
-        return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
+        self.group = {r:[] for r in self.roots()}
+        for i in range(self.n):
+            self.group[self.find(i)].append(i)
+        return '\n'.join('{}: {}'.format(r, self.group[r]) for r in self.roots())
 
 #URL
 #https://note.nkmk.me/python-union-find/
-parents
-各要素の親要素の番号を格納するリスト
-要素が根（ルート）の場合は-(そのグループの要素数)を格納する
-find(x)
-要素xが属するグループの根を返す
-union(x, y)
-要素xが属するグループと要素yが属するグループとを併合する
-size(x)
-要素xが属するグループのサイズ（要素数）を返す
-same(x, y)
-要素x, yが同じグループに属するかどうかを返す
-members(x)
-要素xが属するグループに属する要素をリストで返す
-関連記事: Pythonリスト内包表記の使い方
-roots()
-すべての根の要素をリストで返す
-group_count()
-グループの数を返す
-all_group_members
-{ルート要素: [そのグループに含まれる要素のリスト], ...}の辞書を返す
-関連記事: Pythonで辞書を作成するdict()と波括弧、辞書内包表記
-__str__()
-print()での表示用
-ルート要素: [そのグループに含まれる要素のリスト]を文字列で返す
+# parents
+# 各要素の親要素の番号を格納するリスト
+# 要素が根（ルート）の場合は-(そのグループの要素数)を格納する
+# find(x)
+# 要素xが属するグループの根を返す
+# union(x, y)
+# 要素xが属するグループと要素yが属するグループとを併合する
+# size(x)
+# 要素xが属するグループのサイズ（要素数）を返す
+# same(x, y)
+# 要素x, yが同じグループに属するかどうかを返す
+# members(x)
+# 要素xが属するグループに属する要素をリストで返す
+# 関連記事: Pythonリスト内包表記の使い方
+# roots()
+# すべての根の要素をリストで返す
+# group_count()
+# グループの数を返す
+# all_group_members
+# {ルート要素: [そのグループに含まれる要素のリスト], ...}の辞書を返す
+# 関連記事: Pythonで辞書を作成するdict()と波括弧、辞書内包表記
+# __str__()
+# print()での表示用
+# ルート要素: [そのグループに含まれる要素のリスト]を文字列で返す
 
 uf = UnionFind(6)
 print(uf.parents)
@@ -94,3 +100,15 @@ print(uf)
 # 3: [3]
 # 4: [4]
 # 5: [5]
+
+print(uf.group_count())
+# 5
+
+print(uf.roots())
+# [0, 1, 3, 4, 5]
+
+print(uf.size(0))
+# 2
+
+print(uf.all_group_members())
+# {0: [0, 2], 1: [1], 3: [3], 4: [4], 5: [5]}
