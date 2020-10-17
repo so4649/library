@@ -46,10 +46,7 @@ class UnionFind():
         return self.group
 
     def __str__(self):
-        self.group = {r:[] for r in self.roots()}
-        for i in range(self.n):
-            self.group[self.find(i)].append(i)
-        return '\n'.join('{}: {}'.format(r, self.group[r]) for r in self.roots())
+        return '\n'.join('{}: {}'.format(r, self.all_group_members()[r]) for r in self.roots())
 
 #URL
 #https://note.nkmk.me/python-union-find/
