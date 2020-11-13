@@ -3,10 +3,14 @@
 # 計算量はO(log a), O(log mod)
 
 # コンビネーション(mod)の高速計算
-def cmb(n, r):
+def c(n, r):
     if r < 0 or n < 0 or n < r:
         return 0
     return g1[n] * g2[r] * g2[n-r] % mod
+def p(n, r):
+    if r < 0 or n < 0 or n < r:
+        return 0
+    return g1[n] * g2[n-r] % mod
 mod = 10**9+7 #出力の制限
 N = 5*10**5 #Nの最大値
 g1 = [0]*(N+1) #元テーブル(p(n,r))
@@ -20,7 +24,7 @@ for i in range(2,N+1):
     inverse[i] = (-inverse[mod % i] * (mod//i)) % mod
     g2[i] = (g2[i-1] * inverse[i]) % mod
 
-print(cmb(5,2))
+print(c(5,2))
 
 # n = 10**9, r <= 10**5とかの時、O(r)で求められる
 mod = 10**9+7

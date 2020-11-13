@@ -124,13 +124,14 @@ else:
 # 迷路ではない場合
 # 以下は0開始としている
 from collections import deque
-dist = [-1]*N
-que = deque([0])
-dist[0] = 0
+
+dist = [-1]*n
+que = deque([s])
+dist[s] = 0
 while que:
     v = que.popleft()
     d = dist[v]
-    for w in G[v]:
+    for w in edge[v]:
         if dist[w] > -1:
             continue
         dist[w] = d + 1
@@ -142,4 +143,4 @@ while que:
 for i in range(V):
     for j in range(V):
         for k in range(V):
-                cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])
+                edge[i][j] = min(edge[i][j], edge[i][k] + edge[k][j])
