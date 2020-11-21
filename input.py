@@ -39,6 +39,8 @@ p = list(map(lambda x: int(x) - 1, input().split()))
 import sys
 rd = sys.stdin.readline
 
+import sys
+input = sys.stdin.readline
 
 # おぎー流
 import sys
