@@ -7,7 +7,7 @@ from collections import deque
 # 辿り着けないと INF
 def bfs():
     # すべての点を INF で初期化
-    d = [[float("inf")] * m for i in range(n)]
+    d = [[-1] * m for i in range(n)]
     # 移動4方向のベクトル
     dx = [1, 0, -1, 0]
     dy = [0, 1, 0, -1]
@@ -40,7 +40,7 @@ def bfs():
             ny = p[1] + dy[i]
             # 移動が可能かの判定とすでに訪れたことがあるかの判定
             # d[nx][ny] != INF なら訪れたことがある
-            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] != "#" and d[nx][ny] == float("inf"):
+            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] != "#" and d[nx][ny] == -1:
                 # 移動できるならキューに入れ、その点の距離を p からの距離 +1 で確定する
                 que.append((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]] + 1
@@ -60,7 +60,7 @@ from collections import deque
 # 辿り着けないと INF
 def bfs():
     # すべての点を INF で初期化
-    d = [[float("inf")] * m for i in range(n)]
+    d = [[-1] * m for i in range(n)]
     # 移動4方向のベクトル
     dx = [1, 0, -1, 0]
     dy = [0, 1, 0, -1]
@@ -103,7 +103,7 @@ def bfs():
             ny = p[1] + dd[i][1]
             # 移動が可能かの判定とすでに訪れたことがあるかの判定
             # d[nx][ny] != INF なら訪れたことがある
-            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and d[nx][ny] == float("inf"):
+            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and d[nx][ny] == -1:
                 que.append((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]]+1
 
@@ -115,7 +115,7 @@ g = list(map(lambda x:int(x)-1,input().split()))
 maze = [list(input()) for i in range(n)]
 
 ans = bfs()
-if ans == float("inf"):
+if ans == -1:
     print(-1)
 else:
     print(ans)
