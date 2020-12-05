@@ -25,6 +25,8 @@ print(gcd(*[27, 18, 9, 3]))
 
 # ３つ以上の最小公倍数
 import math
+from functools import reduce
+
 def lcm_base(x, y):
     return x // math.gcd(x, y) * y
 
