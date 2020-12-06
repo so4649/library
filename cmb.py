@@ -31,11 +31,13 @@ mod = 10**9+7
 def cmb(x, y):
     if x < y:
         return 0
-    ret = 1
+    bunsi = 1
+    bunbo = 1
     for i in range(1, y+1):
-        ret = (ret * (x+1-i)) % mod
-        ret = (ret * pow(i, mod-2, mod)) % mod
-    return ret
+        bunsi = (bunsi*(x+1-i)) % mod
+        bunbo = (bunbo*i) % mod
+    res = bunsi*pow(bunbo,mod-2,mod) % mod
+    return res
 
 
 def p(n, r):
