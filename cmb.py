@@ -28,13 +28,13 @@ print(c(5,2))
 
 # n = 10**9, r <= 10**5とかの時、O(r)で求められる
 mod = 10**9+7
-def cmb(x, y):
-    if x < y:
+def cmb(n, r):
+    if r < 0 or n < 0 or n < r:
         return 0
     bunsi = 1
     bunbo = 1
-    for i in range(1, y+1):
-        bunsi = (bunsi*(x+1-i)) % mod
+    for i in range(1, r+1):
+        bunsi = (bunsi*(n+1-i)) % mod
         bunbo = (bunbo*i) % mod
     res = bunsi*pow(bunbo,mod-2,mod) % mod
     return res
