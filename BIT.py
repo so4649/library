@@ -1,38 +1,6 @@
 # https://juppy.hatenablog.com/entry/2018/11/17/%E8%9F%BB%E6%9C%AC_python_Binary_Indexed_Tree_%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0
 
-n = 6
-a = [1,2,3,4,5,6]
-
-#A1 ... AnのBIT(1-indexed)
-BIT = [0]*(n+1)
-
-#A1 ~ Aiまでの和 O(logN)
-def BIT_query(idx):
-    res_sum = 0
-    while idx > 0:
-        res_sum += BIT[idx]
-        idx -= idx&(-idx)
-    return res_sum
-
-#Ai += x O(logN)
-def BIT_update(idx,x):
-    while idx <= n:
-        BIT[idx] += x
-        idx += (idx&(-idx))
-    return
-
-for i,e in enumerate(a):
-   BIT_update(i+1,e)
-
-# すべて1-indexなので注意
-#A1~A3の和 : 6
-print(BIT_query(3))
-
-#A3~A6の和 : 18
-print(BIT_query(6)-BIT_query(2))
-
-
-# クラスを使う場合(1-indexed)
+# クラスを使う場合(0-indexed)
 class BIT:
     def __init__(self,len_A):
         self.N = len_A + 10
@@ -75,21 +43,24 @@ a = [1,2,3,4,5,6]
 
 bit = BIT(n)
 for i,e in enumerate(a):
-   bit.add(i+1,e)
+   bit.add(i,e)
 
-# すべて1-indexなので注意
-#A1~A3の和 : 6
-print(bit.query(3))
+# A1~A3の和 : 6
+print(bit.query(2))
 
-#A3~A6の和 : 18
-print(bit.query(6)-bit.query(2))
+# A3~A6の和 : 18
+print(bit.query(5)-bit.query(1))
 
-bit.add(3,10)
-print(bit.query(3))
+print(bit.lower_left(7))
+# A3(=4)で初めて和が7以上(10)になる:3
 
+bit.add(2,10)
+print(bit.query(2))
+# 16
 
 # 区間に足し算を行う場合（蟻本3-3-3)
 # 省略
+# 参考：https://tjkendev.github.io/procon-library/python/range_query/rsq_raq_bit.html
 
 
 # 複数のBITを使う時（中のリストが独立な２次元リストなど）
