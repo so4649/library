@@ -32,7 +32,7 @@ print(BIT_query(3))
 print(BIT_query(6)-BIT_query(2))
 
 
-# クラスを使う場合
+# クラスを使う場合(1-indexed)
 class BIT:
     def __init__(self,len_A):
         self.N = len_A + 10

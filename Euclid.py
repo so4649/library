@@ -2,16 +2,12 @@
 
 # 最小公約数
 import math
-print(math.gcd(a, b))
-# 2
+print(math.gcd(2, 4))
 
 # 最小公倍数
 import math
 def lcm(x, y):
     return x // math.gcd(x, y) * y
-
-print(lcm(a, b))
-# 12
 
 # ３つ以上の最大公約数
 import math
