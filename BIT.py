@@ -3,15 +3,15 @@
 # クラスを使う場合(0-indexed)
 class BIT:
     def __init__(self,len_A):
-        self.N = len_A + 10
-        self.bit = [0]*(len_A+10)
+        self.N = len_A+2
+        self.bit = [0]*(len_A+3)
         
     # sum(A0 ~ Ai)
     # O(log N)
     def query(self,i):
         res = 0
         idx = i+1
-        while idx:
+        while idx > 0:
             res += self.bit[idx]
             idx -= idx&(-idx)
         return res
@@ -46,13 +46,18 @@ for i,e in enumerate(a):
    bit.add(i,e)
 
 # A1~A3の和 : 6
-print(bit.query(2))
+print(bit.query(3))
 
 # A3~A6の和 : 18
 print(bit.query(5)-bit.query(1))
 
 print(bit.lower_left(7))
 # A3(=4)で初めて和が7以上(10)になる:3
+
+print(bit.query(-2))
+# 0
+print(bit.query(-1))
+# 0
 
 bit.add(2,10)
 print(bit.query(2))
