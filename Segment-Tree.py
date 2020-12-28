@@ -408,6 +408,11 @@ def query(l, r):
 
 # ACLBCのEでの提出。遅延セグ木一般化
 
+# op_X:演算
+# e_X:演算の単位元
+# mapping:作用素を反映させる関数
+# compose:作用素同士をマージさせる関数
+# id_M:composeの単位元
 class LazySegmentTree:
     def __init__(self, op_X, e_X, mapping, compose, id_M, N, array=None):
         __slots__ = ["op_X","e_X","mapping","compose","id_M","N","log","N0","data","lazy"]

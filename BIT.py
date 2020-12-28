@@ -5,6 +5,7 @@ class BIT:
     def __init__(self,len_A):
         self.N = len_A+2
         self.bit = [0]*(len_A+3)
+        self.num = [0]*(len_A+3)
         
     # sum(A0 ~ Ai)
     # O(log N)
@@ -16,6 +17,15 @@ class BIT:
             idx -= idx&(-idx)
         return res
 
+    # sum(Ai ~ Aj)
+    # if j == None return Ai
+    def get(self,i,j=None):
+        if j == None:
+            return self.num[i]
+        if j < i:
+            return 0
+        return self.query(j)-self.query(i-1)
+
     # Ai += x
     # O(log N)
     def add(self,i,x):
@@ -23,6 +33,13 @@ class BIT:
         while idx < self.N:
             self.bit[idx] += x
             idx += idx&(-idx)
+        self.num[i] += x
+
+    # Ai = x
+    # O(log N)
+    def update(self,i,x):
+        self.add(i,x-self.num[i])
+        self.num[i] = x
     
     # min_i satisfying {sum(A0 ~ Ai) >= w} (Ai >= 0)
     # O(log N)
@@ -45,14 +62,18 @@ bit = BIT(n)
 for i,e in enumerate(a):
    bit.add(i,e)
 
-# A1~A3の和 : 6
+# A0~A2の和 : 6
 print(bit.query(3))
 
-# A3~A6の和 : 18
+# A2~A5の和 : 18
 print(bit.query(5)-bit.query(1))
+print(bit.get(2,5))
 
-print(bit.lower_left(7))
+# A4 : 3
+print(bit.get(2))
+
 # A3(=4)で初めて和が7以上(10)になる:3
+print(bit.lower_left(7))
 
 print(bit.query(-2))
 # 0
@@ -62,6 +83,10 @@ print(bit.query(-1))
 bit.add(2,10)
 print(bit.query(2))
 # 16
+
+bit.update(2,10)
+print(bit.query(2))
+# 13
 
 # 区間に足し算を行う場合（蟻本3-3-3)
 # 省略
