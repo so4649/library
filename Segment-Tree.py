@@ -195,217 +195,6 @@ class SegmentTree():
 
 
 
-
-# 遅延評価セグメント木 RMQ(最小値) and RUQ(値の更新)
-INF = 2**31-1
-
-LV = (N-1).bit_length()
-N0 = 2**LV
-data = [INF]*(2*N0)
-lazy = [None]*(2*N0)
-
-# 伝搬される区間のインデックス(1-indexed)を全て列挙するgenerator
-def gindex(l, r):
-    L = l + N0; R = r + N0
-    lm = (L // (L & -L)) >> 1
-    rm = (R // (R & -R)) >> 1
-    while L < R:
-        if R <= rm:
-            yield R
-        if L <= lm:
-            yield L
-        L >>= 1; R >>= 1
-    while L:
-        yield L
-        L >>= 1
-
-# 1-indexedで単調増加のインデックスリストを渡す
-def propagates(*ids):
-    for i in reversed(ids):
-        v = lazy[i-1]
-        if v is None:
-            continue
-        lazy[2*i-1] = data[2*i-1] = lazy[2*i] = data[2*i] = v
-        lazy[i-1] = None
-
-def update(l, r, x):
-    *ids, = gindex(l, r)
-    # 1. トップダウンにlazyの値を伝搬
-    propagates(*ids)
- 
-    # 2. 区間[l, r)のdata, lazyの値を更新
-    L = N0 + l; R = N0 + r
-    while L < R:
-        if R & 1:
-            R -= 1
-            lazy[R-1] = data[R-1] = x
-        if L & 1:
-            lazy[L-1] = data[L-1] = x
-            L += 1
-        L >>= 1; R >>= 1
-
-    # 3. 伝搬させた区間について、ボトムアップにdataの値を伝搬する
-    for i in ids:
-        data[i-1] = min(data[2*i-1], data[2*i])
-
-def query(l, r):
-    # 1. トップダウンにlazyの値を伝搬
-    propagates(*gindex(l, r))
-    L = N0 + l; R = N0 + r
-
-    # 2. 区間[l, r)の最小値を求める
-    s = INF
-    while L < R:
-        if R & 1:
-            R -= 1
-            s = min(s, data[R-1])
-        if L & 1:
-            s = min(s, data[L-1])
-            L += 1
-        L >>= 1; R >>= 1
-    return s
-
-# 恐らく以下のようにして対象を入れる
-for i in range(N):
-    update(i,i+1,a[i])
-
-# ---------------------------------------------------------------------
-
-# 遅延評価セグメント木 RMQ(最小値) and RAQ(値の加算)
-INF = 2**31-1
-
-LV = (N-1).bit_length()
-N0 = 2**LV
-data = [0]*(2*N0)
-lazy = [0]*(2*N0)
-
-def gindex(l, r):
-    L = l + N0; R = r + N0
-    lm = (L // (L & -L)) >> 1
-    rm = (R // (R & -R)) >> 1
-    while L < R:
-        if R <= rm:
-            yield R
-        if L <= lm:
-            yield L
-        L >>= 1; R >>= 1
-    while L:
-        yield L
-        L >>= 1
-
-def propagates(*ids):
-    for i in reversed(ids):
-        v = lazy[i-1]
-        if not v:
-            continue
-        lazy[2*i-1] += v; lazy[2*i] += v
-        data[2*i-1] += v; data[2*i] += v
-        lazy[i-1] = 0
-
-def update(l, r, x):
-    # 2. 区間[l, r)のdata, lazyの値を更新
-    L = N0 + l; R = N0 + r
-    while L < R:
-        if R & 1:
-            R -= 1
-            lazy[R-1] += x; data[R-1] += x
-        if L & 1:
-            lazy[L-1] += x; data[L-1] += x
-            L += 1
-        L >>= 1; R >>= 1
-
-    # 3. 更新される区間を部分的に含んだ区間のdataの値を更新 (lazyの値を考慮)
-    for i in gindex(l, r):
-        data[i-1] = min(data[2*i-1], data[2*i]) + lazy[i-1]
-
-def query(l, r):
-    # 1. トップダウンにlazyの値を伝搬
-    propagates(*gindex(l, r))
-    L = N0 + l; R = N0 + r
-
-    # 2. 区間[l, r)の最小値を求める
-    s = INF
-    while L < R:
-        if R & 1:
-            R -= 1
-            s = min(s, data[R-1])
-        if L & 1:
-            s = min(s, data[L-1])
-            L += 1
-        L >>= 1; R >>= 1
-    return s
-
-# 恐らく以下のようにして対象を入れる
-for i in range(N):
-    update(i,i+1,a[i])
-
-
-# https://tjkendev.github.io/procon-library/python/range_query/rsq_ruq_segment_tree_lp.html
-# RSQ and RUQ (区間の合計と区間の値の更新)
-
-# N: 処理する区間の長さ
-LV = (N-1).bit_length()
-N0 = 2**LV
-data = [0]*(2*N0)
-lazy = [None]*(2*N0)
-
-def gindex(l, r):
-    L = (l + N0) >> 1; R = (r + N0) >> 1
-    lc = 0 if l & 1 else (L & -L).bit_length()
-    rc = 0 if r & 1 else (R & -R).bit_length()
-    for i in range(LV):
-        if rc <= i:
-            yield R
-        if L < R and lc <= i:
-            yield L
-        L >>= 1; R >>= 1
-
-# 遅延伝搬処理
-def propagates(*ids):
-    for i in reversed(ids):
-        v = lazy[i-1]
-        if v is None:
-            continue
-        lazy[2*i-1] = lazy[2*i] = data[2*i-1] = data[2*i] = v >> 1
-        lazy[i-1] = None
-
-# 区間[l, r)をxに更新
-def update(l, r, x):
-    *ids, = gindex(l, r)
-    propagates(*ids)
-
-    L = N0 + l; R = N0 + r
-    v = x
-    while L < R:
-        if R & 1:
-            R -= 1
-            lazy[R-1] = data[R-1] = v
-        if L & 1:
-            lazy[L-1] = data[L-1] = v
-            L += 1
-        L >>= 1; R >>= 1; v <<= 1
-    for i in ids:
-        data[i-1] = data[2*i-1] + data[2*i]
-
-# 区間[l, r)内の合計を求める
-def query(l, r):
-    propagates(*gindex(l, r))
-    L = N0 + l; R = N0 + r
-
-    s = 0
-    while L < R:
-        if R & 1:
-            R -= 1
-            s += data[R-1]
-        if L & 1:
-            s += data[L-1]
-            L += 1
-        L >>= 1; R >>= 1
-    return s
-
-
-
-
 # ACLBCのEでの提出。遅延セグ木一般化
 
 # op_X:演算
@@ -625,3 +414,214 @@ for _ in range(q):
     l,r,d = map(int, readline().split())
     seg.apply(l-1,r,d)
     print(seg.all_prod()>>32)
+
+
+
+
+
+# 遅延評価セグメント木 RMQ(最小値) and RUQ(値の更新)
+INF = 2**31-1
+
+LV = (N-1).bit_length()
+N0 = 2**LV
+data = [INF]*(2*N0)
+lazy = [None]*(2*N0)
+
+# 伝搬される区間のインデックス(1-indexed)を全て列挙するgenerator
+def gindex(l, r):
+    L = l + N0; R = r + N0
+    lm = (L // (L & -L)) >> 1
+    rm = (R // (R & -R)) >> 1
+    while L < R:
+        if R <= rm:
+            yield R
+        if L <= lm:
+            yield L
+        L >>= 1; R >>= 1
+    while L:
+        yield L
+        L >>= 1
+
+# 1-indexedで単調増加のインデックスリストを渡す
+def propagates(*ids):
+    for i in reversed(ids):
+        v = lazy[i-1]
+        if v is None:
+            continue
+        lazy[2*i-1] = data[2*i-1] = lazy[2*i] = data[2*i] = v
+        lazy[i-1] = None
+
+def update(l, r, x):
+    *ids, = gindex(l, r)
+    # 1. トップダウンにlazyの値を伝搬
+    propagates(*ids)
+ 
+    # 2. 区間[l, r)のdata, lazyの値を更新
+    L = N0 + l; R = N0 + r
+    while L < R:
+        if R & 1:
+            R -= 1
+            lazy[R-1] = data[R-1] = x
+        if L & 1:
+            lazy[L-1] = data[L-1] = x
+            L += 1
+        L >>= 1; R >>= 1
+
+    # 3. 伝搬させた区間について、ボトムアップにdataの値を伝搬する
+    for i in ids:
+        data[i-1] = min(data[2*i-1], data[2*i])
+
+def query(l, r):
+    # 1. トップダウンにlazyの値を伝搬
+    propagates(*gindex(l, r))
+    L = N0 + l; R = N0 + r
+
+    # 2. 区間[l, r)の最小値を求める
+    s = INF
+    while L < R:
+        if R & 1:
+            R -= 1
+            s = min(s, data[R-1])
+        if L & 1:
+            s = min(s, data[L-1])
+            L += 1
+        L >>= 1; R >>= 1
+    return s
+
+# 恐らく以下のようにして対象を入れる
+for i in range(N):
+    update(i,i+1,a[i])
+
+# ---------------------------------------------------------------------
+
+# 遅延評価セグメント木 RMQ(最小値) and RAQ(値の加算)
+INF = 2**31-1
+
+LV = (N-1).bit_length()
+N0 = 2**LV
+data = [0]*(2*N0)
+lazy = [0]*(2*N0)
+
+def gindex(l, r):
+    L = l + N0; R = r + N0
+    lm = (L // (L & -L)) >> 1
+    rm = (R // (R & -R)) >> 1
+    while L < R:
+        if R <= rm:
+            yield R
+        if L <= lm:
+            yield L
+        L >>= 1; R >>= 1
+    while L:
+        yield L
+        L >>= 1
+
+def propagates(*ids):
+    for i in reversed(ids):
+        v = lazy[i-1]
+        if not v:
+            continue
+        lazy[2*i-1] += v; lazy[2*i] += v
+        data[2*i-1] += v; data[2*i] += v
+        lazy[i-1] = 0
+
+def update(l, r, x):
+    # 2. 区間[l, r)のdata, lazyの値を更新
+    L = N0 + l; R = N0 + r
+    while L < R:
+        if R & 1:
+            R -= 1
+            lazy[R-1] += x; data[R-1] += x
+        if L & 1:
+            lazy[L-1] += x; data[L-1] += x
+            L += 1
+        L >>= 1; R >>= 1
+
+    # 3. 更新される区間を部分的に含んだ区間のdataの値を更新 (lazyの値を考慮)
+    for i in gindex(l, r):
+        data[i-1] = min(data[2*i-1], data[2*i]) + lazy[i-1]
+
+def query(l, r):
+    # 1. トップダウンにlazyの値を伝搬
+    propagates(*gindex(l, r))
+    L = N0 + l; R = N0 + r
+
+    # 2. 区間[l, r)の最小値を求める
+    s = INF
+    while L < R:
+        if R & 1:
+            R -= 1
+            s = min(s, data[R-1])
+        if L & 1:
+            s = min(s, data[L-1])
+            L += 1
+        L >>= 1; R >>= 1
+    return s
+
+# 恐らく以下のようにして対象を入れる
+for i in range(N):
+    update(i,i+1,a[i])
+
+
+# https://tjkendev.github.io/procon-library/python/range_query/rsq_ruq_segment_tree_lp.html
+# RSQ and RUQ (区間の合計と区間の値の更新)
+
+# N: 処理する区間の長さ
+LV = (N-1).bit_length()
+N0 = 2**LV
+data = [0]*(2*N0)
+lazy = [None]*(2*N0)
+
+def gindex(l, r):
+    L = (l + N0) >> 1; R = (r + N0) >> 1
+    lc = 0 if l & 1 else (L & -L).bit_length()
+    rc = 0 if r & 1 else (R & -R).bit_length()
+    for i in range(LV):
+        if rc <= i:
+            yield R
+        if L < R and lc <= i:
+            yield L
+        L >>= 1; R >>= 1
+
+# 遅延伝搬処理
+def propagates(*ids):
+    for i in reversed(ids):
+        v = lazy[i-1]
+        if v is None:
+            continue
+        lazy[2*i-1] = lazy[2*i] = data[2*i-1] = data[2*i] = v >> 1
+        lazy[i-1] = None
+
+# 区間[l, r)をxに更新
+def update(l, r, x):
+    *ids, = gindex(l, r)
+    propagates(*ids)
+
+    L = N0 + l; R = N0 + r
+    v = x
+    while L < R:
+        if R & 1:
+            R -= 1
+            lazy[R-1] = data[R-1] = v
+        if L & 1:
+            lazy[L-1] = data[L-1] = v
+            L += 1
+        L >>= 1; R >>= 1; v <<= 1
+    for i in ids:
+        data[i-1] = data[2*i-1] + data[2*i]
+
+# 区間[l, r)内の合計を求める
+def query(l, r):
+    propagates(*gindex(l, r))
+    L = N0 + l; R = N0 + r
+
+    s = 0
+    while L < R:
+        if R & 1:
+            R -= 1
+            s += data[R-1]
+        if L & 1:
+            s += data[L-1]
+            L += 1
+        L >>= 1; R >>= 1
+    return s
