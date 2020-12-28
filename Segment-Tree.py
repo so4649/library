@@ -105,7 +105,10 @@ print(seg.query(0, 8)) # 0
 # 種類数    x | y   set()
 
 
-# 別パターン
+# 別パターン(0-indexed)
+# init:配列の長さまたは配列
+# unitX:単位元
+# f:演算
 class SegmentTree():
     def __init__(self, init, unitX, f):
         self.f = f # (X, X) -> X
@@ -133,6 +136,7 @@ class SegmentTree():
     def getvalue(self, i):
         return self.X[i + self.n]
     
+    # [l,r)
     def getrange(self, l, r):
         l += self.n
         r += self.n
