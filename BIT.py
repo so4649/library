@@ -1,6 +1,6 @@
 # https://juppy.hatenablog.com/entry/2018/11/17/%E8%9F%BB%E6%9C%AC_python_Binary_Indexed_Tree_%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0
 
-# クラスを使う場合(0-indexed)
+# 一点加算、更新(0-indexed)
 class BIT:
     def __init__(self,len_A):
         self.N = len_A+2
@@ -88,9 +88,37 @@ bit.update(2,10)
 print(bit.query(2))
 # 13
 
-# 区間に足し算を行う場合（蟻本3-3-3)
-# 省略
-# 参考：https://tjkendev.github.io/procon-library/python/range_query/rsq_raq_bit.html
+
+# 区間加算（蟻本3-3-3)
+class rangeBIT:
+    def __init__(self,len_A):
+        self.N = len_A+2
+        self.bit0 = [0]*(len_A+3)
+        self.bit1 = [0]*(len_A+3)
+
+    # 区間[l, r)に x を加算
+    def _add(self,data,i,x):
+        idx = i+1
+        while idx < self.N:
+            data[idx] += x
+            idx += idx&(-idx)
+    def add(self,l,r,x):
+        self._add(self.bit0,l,-x*(l-1))
+        self._add(self.bit0,r,x*(r-1))
+        self._add(self.bit1,l,x)
+        self._add(self.bit1,r,-x)
+
+    # 区間[l, r)の和を求める
+    def _query(self,data,i):
+        res = 0
+        idx = i+1
+        while idx > 0:
+            res += data[idx]
+            idx -= idx&(-idx)
+        return res
+    def query(self,l,r):
+        return self._query(self.bit1,r-1)*(r-1)+self._query(self.bit0,r-1)-self._query(self.bit1,l-1)*(l-1)-self._query(self.bit0,l-1)
+
 
 
 # 複数のBITを使う時（中のリストが独立な２次元リストなど）
