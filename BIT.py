@@ -63,7 +63,7 @@ for i,e in enumerate(a):
    bit.add(i,e)
 
 # A0~A2の和 : 6
-print(bit.query(3))
+print(bit.query(2))
 
 # A2~A5の和 : 18
 print(bit.query(5)-bit.query(1))
