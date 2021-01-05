@@ -199,7 +199,11 @@ print(seg.query(0, 8)) # 0
 
 
 
-# ACLBCのEでの提出。遅延セグ木一般化
+# 遅延セグ木一般化
+# とある名言：
+# 求めたいものの計算方法は？→演算
+# 区間に共通して作用させたいものは？→作用素
+# 区間作用が何回も繰り返したときは？→マージ
 
 # op_X:演算
 # e_X:演算の単位元
@@ -209,7 +213,6 @@ print(seg.query(0, 8)) # 0
 class LazySegmentTree:
     def __init__(self, op_X, e_X, mapping, compose, id_M, N, array=None):
         __slots__ = ["op_X","e_X","mapping","compose","id_M","N","log","N0","data","lazy"]
-        #  それぞれ Xの演算、単位元、f(x),  f\circ g, Xの恒等変換
         self.e_X = e_X; self.op_X = op_X; self.mapping = mapping; self.compose = compose; self.id_M = id_M
         self.N = N
         self.log = (N-1).bit_length()
