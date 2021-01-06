@@ -207,7 +207,7 @@ print(seg.query(0, 8)) # 0
 
 # op_X:演算
 # e_X:演算の単位元
-# mapping:作用素を反映させる関数
+# mapping:作用素を反映させる関数。yにxを作用させる。
 # compose:作用素同士をマージさせる関数
 # id_M:composeの単位元
 class LazySegmentTree:
