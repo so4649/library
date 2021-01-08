@@ -178,7 +178,7 @@ def invNumCount(A):
         BIT_update(e+1, 1)
     return res
 
-a = [3,1,4,2]
+a = [3,1,4,3]
 print(invNumCount(a))
 
 
