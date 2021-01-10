@@ -144,7 +144,6 @@ class Bit():
 
 
 # 反転数 O(NlogN)
-import bisect
 def invNumCount(A):
     N = len(A)
     res = 0
@@ -167,19 +166,19 @@ def invNumCount(A):
         return
     
     #Aが座圧されていないとき
-    #"""
-    B = sorted(A)
-    for i,e in enumerate(A):
-        A[i] = bisect.bisect_left(B,e)
-    #"""
+    # """
+    sa = sorted(set(A))
+    dic = {a:i for i,a in enumerate(sa)}
+    A = [dic[i] for i in A]
+    # """
 
     for i,e in enumerate(A):
         res += i-BIT_query(e+1)
         BIT_update(e+1, 1)
     return res
 
-a = [3,1,4,3]
-print(invNumCount(a))
+a = [101,53,200,53]
+print(invNumCount(a)) # 3
 
 
 # https://tjkendev.github.io/procon-library/python/range_query/bit.html
