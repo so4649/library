@@ -35,14 +35,19 @@ field = [list(input()) for i in range(n)]
 #中いじりたいとき
 p = list(map(lambda x: int(x) - 1, input().split()))
 
-# 入力が多いときinputをrdで代用
-import sys
-rd = sys.stdin.readline
-
+# 入力が多いとき
 import sys
 input = sys.stdin.readline
 
+# 入力が数字だけの時こちらの方が早い。pypyでしか使えない。
+import os,io
+input=io.BytesIO(os.read(0,os.fstat(0).st_size)).readline
+
+
+
 # おぎー流
+# 数字入力だけの時。pypyでしか使えない。
+# 入力方法が特殊なので注意
 import sys
 import atexit
  
@@ -100,8 +105,8 @@ class Fastio:
             self.flush()
  
 fastio = Fastio()
-rd = fastio.fastin # int(input())
-wtn = fastio.fastout # print
+rd = fastio.fastin
+wtn = fastio.fastout
 atexit.register(fastio.flush)
 
 N = rd()
