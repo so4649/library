@@ -1,10 +1,10 @@
 # https://nashidos.hatenablog.com/entry/2020/04/07/100508
 
 import heapq
-def dijkstra(s):
+INF = 10**15
+def dijkstra(N,s):
     hq = [(0, s)]
-    heapq.heapify(hq)
-    cost = [float('inf')] * n
+    cost = [INF] * N
     cost[s] = 0
     while hq:
         c, v = heapq.heappop(hq)
