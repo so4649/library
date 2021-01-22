@@ -13,13 +13,13 @@ class Imos:
         self.im[l] += x
         self.im[r] -= x
     
-    # [l,r),O(n)
-    def query(self,i):
+    # 値を求める。O(n)
+    def get(self,i):
         return sum(self.im[:i+1])
 
 a = [1,3,5,2,3]
 imos = Imos(a)
 # a[2]~a[4]に2足す
 imos.add(2,5,2)
-print(imos.query(1)) # 3
-print(imos.query(4)) # 5
+print(imos.get(1)) # 3
+print(imos.get(4)) # 5
