@@ -7,12 +7,12 @@ class SegmentTree():
         self.f = f # (X, X) -> X
         self.unitX = unitX
         if type(init) == int:
-            self.n = init
-            self.n = 1 << (self.n - 1).bit_length()
+            self.l = init
+            self.n = 1 << (self.l - 1).bit_length()
             self.X = [unitX] * (self.n * 2)
         else:
-            self.n = len(init)
-            self.n = 1 << (self.n - 1).bit_length()
+            self.l = len(init)
+            self.n = 1 << (self.l - 1).bit_length()
             self.X = [unitX] * self.n + init + [unitX] * (self.n - len(init))
             for i in range(self.n-1, 0, -1):
                 self.X[i] = self.f(self.X[i*2], self.X[i*2|1])
@@ -47,7 +47,7 @@ class SegmentTree():
     
     # Find r s.t. calc(l, ..., r-1) = True and calc(l, ..., r) = False
     def max_right(self, l, z):
-        if l >= self.n: return self.n
+        if l >= self.l: return self.l
         l += self.n
         s = self.unitX
         while 1:
@@ -63,7 +63,7 @@ class SegmentTree():
             s = self.f(s, self.X[l])
             l += 1
             if l & -l == l: break
-        return self.n
+        return self.l
     
     # Find l s.t. calc(l, ..., r-1) = True and calc(l-1, ..., r-1) = False
     def min_left(self, r, z):
