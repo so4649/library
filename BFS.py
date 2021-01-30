@@ -4,9 +4,9 @@
 from collections import deque
 
 # (sx, sy) から (gx, gy) への最短距離を求める
-# 辿り着けないと INF
+# 辿り着けないと -1
 def bfs():
-    # すべての点を INF で初期化
+    # すべての点を -1 で初期化
     d = [[-1] * m for i in range(n)]
     # 移動4方向のベクトル
     dx = [1, 0, -1, 0]
@@ -39,7 +39,7 @@ def bfs():
             nx = p[0] + dx[i]
             ny = p[1] + dy[i]
             # 移動が可能かの判定とすでに訪れたことがあるかの判定
-            # d[nx][ny] != INF なら訪れたことがある
+            # d[nx][ny] != -1 なら訪れたことがある
             if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] != "#" and d[nx][ny] == -1:
                 # 移動できるならキューに入れ、その点の距離を p からの距離 +1 で確定する
                 que.append((nx, ny))
@@ -57,9 +57,9 @@ print(bfs())
 from collections import deque
 
 # (sx, sy) から (gx, gy) への最短距離を求める
-# 辿り着けないと INF
+# 辿り着けないと -1
 def bfs():
-    # すべての点を INF で初期化
+    # すべての点を -1 で初期化
     d = [[-1] * m for i in range(n)]
     # 移動4方向のベクトル
     dx = [1, 0, -1, 0]
@@ -92,7 +92,7 @@ def bfs():
             nx = p[0] + dx[i]
             ny = p[1] + dy[i]
             # 移動が可能かの判定とすでに訪れたことがあるかの判定
-            # d[nx][ny] != INF なら訪れたことがある
+            # d[nx][ny] != -1 なら訪れたことがある
             if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and d[nx][ny] > d[p[0]][p[1]]:
                 # 移動できるならキューに入れ、その点の距離を p からの距離 +1 で確定する
                 que.appendleft((nx, ny))
@@ -102,7 +102,7 @@ def bfs():
             nx = p[0] + dd[i][0]
             ny = p[1] + dd[i][1]
             # 移動が可能かの判定とすでに訪れたことがあるかの判定
-            # d[nx][ny] != INF なら訪れたことがある
+            # d[nx][ny] != -1 なら訪れたことがある
             if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and d[nx][ny] == -1:
                 que.append((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]]+1
@@ -125,21 +125,22 @@ else:
 # 以下は0開始としている
 from collections import deque
 
-dist = [-1]*n
-que = deque([s])
-dist[s] = 0
-while que:
-    v = que.popleft()
-    d = dist[v]
-    for w in edge[v]:
-        if dist[w] > -1:
-            continue
-        dist[w] = d + 1
-        que.append(w)
-
+def bfs(N,edge,start=0):
+    dist = [-1]*N
+    que = deque([start])
+    dist[start] = 0
+    while que:
+        v = que.popleft()
+        d = dist[v]
+        for w in edge[v]:
+            if dist[w] > -1:
+                continue
+            dist[w] = d + 1
+            que.append(w)
+            
 
 # ワーシャルフロイド（BFSじゃないけどおまけ)
-# costの初期値はinf
+# costの初期値は-1
 for i in range(V):
     for j in range(V):
         for k in range(V):
