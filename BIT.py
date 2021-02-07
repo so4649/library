@@ -2,10 +2,17 @@
 
 # 一点加算、更新(0-indexed)
 class BIT:
-    def __init__(self,len_A):
-        self.N = len_A+2
-        self.bit = [0]*(len_A+3)
-        self.num = [0]*(len_A+3)
+    def __init__(self,init):
+        if type(init) == int:
+            self.N = init+2
+            self.bit = [0]*(init+3)
+            self.num = [0]*(init+3)
+        else:
+            self.N = len(init)+2
+            self.bit = [0]*(len(init)+3)
+            self.num = [0]*(len(init)+3)
+            for i in range(len(init)):
+                self.add(i,init[i])
         
     # sum(A0 ~ Ai)
     # O(log N)
@@ -58,9 +65,7 @@ class BIT:
 n = 6
 a = [1,2,3,4,5,6]
 
-bit = BIT(n)
-for i,e in enumerate(a):
-   bit.add(i,e)
+bit = BIT(a)
 
 # A0~A2の和 : 6
 print(bit.query(2))
@@ -91,10 +96,10 @@ print(bit.query(2))
 
 # 区間加算（蟻本3-3-3)
 class rangeBIT:
-    def __init__(self,len_A):
-        self.N = len_A+2
-        self.bit0 = [0]*(len_A+3)
-        self.bit1 = [0]*(len_A+3)
+    def __init__(self,init):
+        self.N = init+2
+        self.bit0 = [0]*(init+3)
+        self.bit1 = [0]*(init+3)
 
     # 区間[l, r)に x を加算
     def _add(self,data,i,x):
