@@ -14,7 +14,7 @@ class BIT:
             for i in range(len(init)):
                 self.add(i,init[i])
         
-    # sum(A0 ~ Ai)
+    # [A0,Ai]
     # O(log N)
     def query(self,i):
         res = 0
@@ -24,14 +24,14 @@ class BIT:
             idx -= idx&(-idx)
         return res
 
-    # sum(Ai ~ Aj)
+    # [Ai,Aj)
     # if j == None return Ai
     def get(self,i,j=None):
         if j == None:
             return self.num[i]
-        if j < i:
+        if j <= i:
             return 0
-        return self.query(j)-self.query(i-1)
+        return self.query(j-1)-self.query(i-1)
 
     # Ai += x
     # O(log N)
@@ -72,9 +72,9 @@ print(bit.query(2))
 
 # A2~A5の和 : 18
 print(bit.query(5)-bit.query(1))
-print(bit.get(2,5))
+print(bit.get(2,6))
 
-# A4 : 3
+# A2 : 3
 print(bit.get(2))
 
 # A3(=4)で初めて和が7以上(10)になる:3
