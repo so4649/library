@@ -29,11 +29,11 @@ print([dijkstra(i) for i in range(n)])
 
 
 # 経路復元
+# 前頂点の情報を持たせる
 # yosupo judge:Shortest Path
 
 import heapq
 INF = 10**15
-
 def dijkstra_root(N,s):
     hq = [(0, s)]
     prev = [-1] * N
