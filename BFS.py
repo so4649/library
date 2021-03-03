@@ -137,6 +137,7 @@ def bfs(N,edge,start=0):
                 continue
             dist[w] = d + 1
             que.append(w)
+    return dist
             
 
 # ワーシャルフロイド（BFSじゃないけどおまけ)
