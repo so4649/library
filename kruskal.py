@@ -46,14 +46,6 @@ class UnionFind():
     def __str__(self):
         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
 
-
-V, E = map(int, input().split())
-edges = []
-for i in range(E):
-    s, t, w = map(int, input().split())
-    edges.append((w, s-1, t-1))
-edges.sort()
-
 def kruskal(n, edges):#edges: wでソート済み
     U = UnionFind(n)
     res = 0
@@ -63,5 +55,13 @@ def kruskal(n, edges):#edges: wでソート済み
             res+=w
             U.union(s, t)
     return res
+    
+
+V, E = map(int, input().split())
+edges = []
+for i in range(E):
+    s, t, w = map(int, input().split())
+    edges.append((w, s-1, t-1))
+edges.sort()
 
 print(kruskal(V, edges))
