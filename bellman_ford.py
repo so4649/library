@@ -5,9 +5,9 @@ def bellman_ford(s):
     d = [INF]*n # 各頂点への最小コスト
     d[s] = 0
 
+    ok = True
     for i in range(n):
         update = False # 更新が行われたか
-        ok = True
         for x, y, z in g:
             if d[y] > d[x] + z:
                 d[y] = d[x] + z
