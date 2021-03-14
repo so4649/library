@@ -43,7 +43,7 @@ def cmb(n, r):
 def p(n, r):
     if n < 0 or r < 0 or n < r:
         return 0
-    res = 1
+        res = 1
         for i in range(r):
             res *= n - i
     return res
