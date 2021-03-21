@@ -1,5 +1,4 @@
 # 畳み込み O(nlogn)
-# たすき掛けの係数を求める
 
 mod = 998244353
 def primitive_root(m):
@@ -124,6 +123,14 @@ def convolution(a, b):
         a[i] *= iz
         a[i] %= mod
     return a
+
+
+
+n,m = map(int,input().split())
+a = list(map(int,input().split()))
+b = list(map(int,input().split()))
+ans = convolution(a,b)
+print(*ans)
 
 # -----------------------------------------------------------------
 # 別コード
