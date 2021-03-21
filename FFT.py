@@ -1,4 +1,5 @@
 # 畳み込み O(nlogn)
+# 元配列に対して破壊的なので注意
 
 mod = 998244353
 def primitive_root(m):
