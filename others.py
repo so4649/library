@@ -25,6 +25,15 @@ for i in range(n):
 t = ruiseki[rx][ry]-ruiseki[lx][ry]-ruiseki[rx][ly]+ruiseki[lx][ly]
 
 
+# powの事前計算
+po = [[1]*(l+1) for i in range(17)]
+po[0][0] = 0
+for i in range(17):
+    for j in range(1,l+1):
+        po[i][j] = po[i][j-1]*i
+        po[i][j] %= mod
+
+
 # ソートされた2つの配列をあわせる
 def merge(s, t):
     u = list()
@@ -42,19 +51,26 @@ def merge(s, t):
     return u
 
 
-# xの立っているビット数をカウントする関数
+# xの立っているビット数をカウントする
 def popcount(x):
-    '''xの立っているビット数をカウントする関数
-    (xは64bit整数)'''
+    return bin(x).count("1")
 
-    # 2bitごとの組に分け、立っているビット数を2bitで表現する
-    x = x - ((x >> 1) & 0x5555555555555555)
 
-    # 4bit整数に 上位2bit + 下位2bit を計算した値を入れる
-    x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333)
+# 小数で誤差が出そうな問題
+# https://docs.python.org/ja/3/library/decimal.html
+# pypyではなくpythonで使う
+from decimal import *
+x,y,r = map(Decimal,input().split())
 
-    x = (x + (x >> 4)) & 0x0f0f0f0f0f0f0f0f # 8bitごと
-    x = x + (x >> 8) # 16bitごと
-    x = x + (x >> 16) # 32bitごと
-    x = x + (x >> 32) # 64bitごと = 全部の合計
-    return x & 0x0000007f
+
+# 使えそうな関数
+
+# for文を回す時に複数の変数を取るとき
+for i,j in zip(a,b):
+
+# 商と余り
+syo,amari = divmod(10,3)
+
+s = "abcdefgabcdefg"
+# 開始位置を探索。ここではx = 3
+x = s.find("def")
