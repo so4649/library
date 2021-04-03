@@ -31,7 +31,14 @@ class BIT:
             return self.num[i]
         if j <= i:
             return 0
-        return self.query(j-1)-self.query(i-1)
+        res = 0
+        while j > i:
+            res += self.bit[j]
+            j -= j&(-j)
+        while i > j:
+            res -= self.bit[i]
+            i -= i&(-i)
+        return res
 
     # Ai += x
     # O(log N)
