@@ -4,11 +4,9 @@ class UnionFind():
         self.parents = [-1] * n
 
     def find(self, x):
-        if self.parents[x] < 0:
-            return x
-        else:
-            self.parents[x] = self.find(self.parents[x])
-            return self.parents[x]
+        while self.parents[x] >= 0:
+            x = self.parents[x]
+        return x
 
     def union(self, x, y):
         x = self.find(x)
