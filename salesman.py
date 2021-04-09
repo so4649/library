@@ -31,6 +31,12 @@ else:
 
 # 0スタート時にまた0に戻ってくる解の関数化
 # 無理な場合INFで返る
+INF = 10**10
+cost = [[INF]*k for _ in range(k)]
+for i in range(e):
+    s, t, d = map(int, input().split())
+    cost[s][t] = d
+
 def salesman():
     # dp[S][v]:部分集合S、最後に訪れた点がvであるときのコスト
     dp = [[INF]*k for _ in range(1<<k)]
