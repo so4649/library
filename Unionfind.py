@@ -136,7 +136,8 @@ class PP_UnionFind():
     def size(self, x, t):
         y = self.find(x, t)
         idx = bisect(self.S[y], (t, INF))-1
-        return self.S[y][idx]
+        print(self.S)
+        return self.S[y][idx][1]
 
 
 
