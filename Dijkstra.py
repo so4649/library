@@ -1,9 +1,9 @@
 import heapq
 INF = 10**15
-def dijkstra(N,s):
-    hq = [(0, s)]
+def dijkstra(N,start,edge):
+    hq = [(0, start,)]
     dist = [INF] * N
-    dist[s] = 0
+    dist[start] = 0
     while hq:
         c, v = heapq.heappop(hq)
         if c > dist[v]:
@@ -23,8 +23,8 @@ for _ in range(m):
     edge[a].append((t, b))
     edge[b].append((t, a)) # 有向グラフでは削除
 
-d = dijkstra(0)
-print([dijkstra(i) for i in range(n)])
+d = dijkstra(n,0,edge)
+print(d)
 
 
 
@@ -34,11 +34,11 @@ print([dijkstra(i) for i in range(n)])
 
 import heapq
 INF = 10**15
-def dijkstra_root(N,s):
-    hq = [(0, s)]
+def dijkstra_root(N,start,edge):
+    hq = [(0, start)]
     prev = [-1] * N
     dist = [INF] * N
-    dist[s] = 0
+    dist[start] = 0
     while hq:
         c, v = heapq.heappop(hq)
         if c > dist[v]:
@@ -61,7 +61,7 @@ for i in range(m):
     a,b,c = map(int,input().split())
     edge[a].append((c, b))
 
-dist,prev = dijkstra_root(n,s)
+dist,prev = dijkstra_root(n,s,edge)
 if dist[t] == INF:
     print(-1)
     exit()
