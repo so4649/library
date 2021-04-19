@@ -138,7 +138,23 @@ def bfs(N,edge,start=0):
             dist[w] = d + 1
             que.append(w)
     return dist
-            
+
+# 親を残す場合（経路復元など）
+def bfs(N,edge,start=0):
+    dist = [-1]*N
+    parent = [-1]*N
+    que = deque([start])
+    dist[start] = 0
+    while que:
+        v = que.popleft()
+        d = dist[v]
+        for w in edge[v]:
+            if dist[w] > -1:
+                continue
+            dist[w] = d + 1
+            parent[w] = v
+            que.append(w)
+    return dist,parent
 
 # ワーシャルフロイド（BFSじゃないけどおまけ)
 # costの初期値は-1
