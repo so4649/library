@@ -62,38 +62,37 @@ def c(n, r):
 # mod3などの時はこれを用いる必要がある
 
 def c(n, r):
-    if n < 0 or r < 0 or n < r:
+    if r < 0 or n < 0 or n < r:
         return 0
-    r = min(r, n - r)
+    return g1[n] * g2[r] * g2[n-r] % mod
+def p(n, r):
+    if r < 0 or n < 0 or n < r:
+        return 0
+    return g1[n] * g2[n-r] % mod
+mod = 3 #出力の制限
+N = 3 #Nの最大値
+g1 = [0]*(N+1) #元テーブル(p(n,r))
+g1[0] = g1[1] = 1
+g2 = [0]*(N+1) #逆元テーブル
+g2[0] = g2[1] = 1
+inverse = [0]*(N+1) #逆元テーブル計算用テーブル
+inverse[0],inverse[1] = 0,1
+for i in range(2,N+1):
+    g1[i] = (g1[i-1] * i) % mod
+    inverse[i] = (-inverse[mod % i] * (mod//i)) % mod
+    g2[i] = (g2[i-1] * inverse[i]) % mod
+
+# c(n,r)をmodで割った余りを返す
+def c_lucas(n, k):
     res = 1
-    for i in range(r):
-        res = res * (n - i) // (i + 1)
+    while n > 0:
+        nq, nr = divmod(n, mod)
+        kq, kr = divmod(k, mod)
+        res *= c(nr, kr)
+        res %= mod
+        n = nq
+        k = kq
     return res
-
-# xをp進法表記のリストに変換
-def p_ary(x, p):
-    res = []
-    while x:
-        res.append(x%p)
-        x //= p
-    return res[::-1]
-
-# C(n,r)をpで割った余りを返す
-def lucas(n, r, p):
-    # nとrをp進法で表記
-    n_p = p_ary(n, p)
-    r_p = p_ary(r, p)
-    # n_pとr_pの桁を揃える(左側を0で埋める)
-    r_p = [0]*(len(n_p)-len(r_p)) + r_p
-
-    res = 1
-    for i,j in zip(n_p, r_p):
-        res *= c(i,j)
-        res %= p
-    return res
-
-ans = lucas(15,1,14)
-print(ans)
 
 
 
