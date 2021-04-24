@@ -2,7 +2,7 @@
 # 非再帰
 v, e = map(int, input().split())
 
-INF = 10**10
+INF = 10**15
 cost = [[INF]*v for _ in range(v)]
 
 for i in range(e):
@@ -31,7 +31,7 @@ else:
 
 # 0スタート時にまた0に戻ってくる解の関数化
 # 無理な場合INFで返る
-INF = 10**10
+INF = 10**15
 cost = [[INF]*k for _ in range(k)]
 for i in range(e):
     s, t, d = map(int, input().split())
@@ -59,7 +59,7 @@ def salesman():
 
 # https://kakedashi-engineer.appspot.com/2020/05/21/dpl2a/
 V, E = map(int, input().split())
-INF = 10**10
+INF = 10**15
 cost = [[INF]*V for _ in range(V)] # 重み
 for e in range(E):
     s, t, d = map(int,input().split())
