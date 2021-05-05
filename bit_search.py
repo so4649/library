@@ -18,7 +18,7 @@ def iter_p_adic(p, n):
     ----------
     所望のp進数リストを次々返してくれるiterator
     '''
-    tmp = [range(1,p+1)] * n
+    tmp = [range(p)] * n
     return product(*tmp)
 
 for p in iter_p_adic(4, 3):
