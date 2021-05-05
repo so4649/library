@@ -158,6 +158,7 @@ def bfs(N,edge,start=0):
 
 
 # ワーシャルフロイド（BFSじゃないけどおまけ)
+# k,i,jの順に回すことに注意
 
 n,m = map(int,input().split())
 
@@ -171,7 +172,7 @@ for i in range(m):
     edge[a-1][b-1] = t
     edge[b-1][a-1] = t
 
-for i in range(n):
-    for j in range(n):
-        for k in range(n):
+for k in range(n):
+    for i in range(n):
+        for j in range(n):
                 edge[i][j] = min(edge[i][j], edge[i][k] + edge[k][j])
