@@ -156,9 +156,22 @@ def bfs(N,edge,start=0):
             que.append(w)
     return dist,parent
 
+
 # ワーシャルフロイド（BFSじゃないけどおまけ)
-# costの初期値は-1
-for i in range(V):
-    for j in range(V):
-        for k in range(V):
+
+n,m = map(int,input().split())
+
+INF = 10**15
+edge = [[INF]*n for i in range(n)]
+for i in range(n):
+    edge[i][i] = 0
+
+for i in range(m):
+    a,b,t = map(int,input().split())
+    edge[a-1][b-1] = t
+    edge[b-1][a-1] = t
+
+for i in range(n):
+    for j in range(n):
+        for k in range(n):
                 edge[i][j] = min(edge[i][j], edge[i][k] + edge[k][j])
