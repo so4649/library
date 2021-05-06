@@ -67,8 +67,8 @@ def mmult(A, B):
     
 def mpow(A, n):
     if n == 0: return [[1 if i==j else 0 for j in range(len(A))] for i in range(len(A))]
-    if n % 2: return mult(mpow(A, n-1), A)
-    return mpow(mult(A, A), n//2)
+    if n % 2: return mmult(mpow(A, n-1), A)
+    return mpow(mmult(A, A), n//2)
 
 x = int(input())
 x -= 6
