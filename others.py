@@ -20,9 +20,21 @@ for i in range(n):
 ruiseki = [[0]*(n+1) for i in range(n+1)]
 for i in range(n):
     for j in range(n):
-        ruiseki[i+1][j+1] = ruiseki[i+1][j]+ruiseki[i][j+1]+ruiseki[i][j]+a[i][j]
+        ruiseki[i+1][j+1] = ruiseki[i+1][j]+ruiseki[i][j+1]-ruiseki[i][j]+a[i][j]
 # 長方形の区間和を求める時 x:[lx,rx),y:[ly,ry)
 t = ruiseki[rx][ry]-ruiseki[lx][ry]-ruiseki[rx][ly]+ruiseki[lx][ly]
+
+
+# ダブリング
+ld = d.bit_length()
+kgo = [go]
+S = go
+for k in range(ld):
+    T = [-1]*n
+    for i in range(n):
+        T[i] = S[S[i]]
+    kgo.append(T)
+    S = T
 
 
 # powの事前計算
