@@ -1,4 +1,4 @@
-import random
+from random import randint
 import subprocess
 
 TESTCASE_FILE = "random.in"
@@ -13,7 +13,7 @@ def read_random_case():
 
 def write_random_case():
     with open(TESTCASE_FILE, "w", encoding="utf-8") as f:
-        N = random.randint(1, 100)
+        N = randint(1, 100)
         f.write(f"{N}")
 
 
@@ -41,7 +41,6 @@ def main():
             print(B)
             print("----------------------------------------")
             break
-
         count += 1
 
 
