@@ -119,7 +119,7 @@ class HLDecomposition:
                 self._dfs_pre(v)
                 self._dfs_hld(v)
 
-    def __getitem__(self, v):
+    def getitem(self, v):
         return self.preorder[v]
 
     def _dfs_pre(self, v):
