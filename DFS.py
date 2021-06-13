@@ -1,26 +1,3 @@
-#2-1-1
-# i までで sum を作って、残り i 以降を調べる
-def dfs(i, sum):
-    # n 個決め終わったら、今までの和 sum が k と等しいかを返す
-    if i == n:
-        return sum == k
-    # a[i] を使わない場合
-    if dfs(i + 1, sum):
-        return True
-    # a[i] を使う場合
-    if dfs(i + 1, sum + a[i]):
-        return True
-    # a[i] を使う使わないに拘らず k が作れないので False を返す
-    return False
-
-n, k = map(int, input().split())
-a = list(map(int, input().split()))
-
-if dfs(0, 0):
-    print("Yes")
-else:
-    print("No")
-
 #2-1-2
 # 現在位置 (x, y)
 def dfs(x, y):
@@ -48,12 +25,15 @@ for i in range(n):
             res += 1
 print(res)
 
-#2-5-1
-def dfs(x,c):
-    color[x] = c
-    for i in range(len(graph[x])):
-        if color[graph[x][i]] == c:
-            return False
-        if color[graph[x][i]] == 0 and not dfs(graph[x][i], -c):
-            return False
-    return True
+# 木上のDFS
+# ここでは部分木の大きさを求めるDFS
+def dfs(i,parent):
+    global ans
+
+    res = 1
+    for j in edge[i]:
+        if j == parent:
+            continue
+        res += dfs(j,i)
+
+    return res
