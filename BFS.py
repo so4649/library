@@ -5,16 +5,16 @@
 from collections import deque
 
 def bfs():
-    d = [[-1] * m for i in range(n)]
+    d = [[-1] * w for i in range(h)]
     dx = [1, 0, -1, 0]
     dy = [0, 1, 0, -1]
 
-    for i in range(n):
-        for j in range(m):
-            if maze[i][j] == "S":
+    for i in range(h):
+        for j in range(w):
+            if s[i][j] == "S":
                 sx = i
                 sy = j
-            if maze[i][j] == "G":
+            if s[i][j] == "G":
                 gx = i
                 gy = j
 
@@ -28,14 +28,14 @@ def bfs():
         for i in range(4):
             nx = p[0] + dx[i]
             ny = p[1] + dy[i]
-            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] != "#" and d[nx][ny] == -1:
+            if 0 <= nx < h and 0 <= ny < w and s[nx][ny] != "#" and d[nx][ny] == -1:
                 que.append((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]] + 1
 
     return d[gx][gy]
 
-n, m = map(int, input().split())
-maze = [list(input()) for i in range(n)]
+h, w = map(int, input().split())
+s = [list(input()) for i in range(h)]
 
 ans = bfs()
 print(ans)
@@ -47,13 +47,9 @@ print(ans)
 from collections import deque
 
 def bfs():
-    d = [[-1] * m for i in range(n)]
+    d = [[-1] * w for i in range(h)]
     dx = [1, 0, -1, 0]
     dy = [0, 1, 0, -1]
-    sx = c[0]
-    sy = c[1]
-    gx = g[0]
-    gy = g[1]
 
     # 周辺25マス移動
     dd = []
@@ -71,22 +67,22 @@ def bfs():
         for i in range(4):
             nx = p[0] + dx[i]
             ny = p[1] + dy[i]
-            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and (d[nx][ny] == -1 or d[nx][ny] > d[p[0]][p[1]]):
+            if 0 <= nx < h and 0 <= ny < w and s[nx][ny] == "." and (d[nx][ny] == -1 or d[nx][ny] > d[p[0]][p[1]]):
                 que.appendleft((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]]
         for i in range(25):
             nx = p[0] + dd[i][0]
             ny = p[1] + dd[i][1]
-            if 0 <= nx < n and 0 <= ny < m and maze[nx][ny] == "." and d[nx][ny] == -1:
+            if 0 <= nx < h and 0 <= ny < w and s[nx][ny] == "." and d[nx][ny] == -1:
                 que.append((nx, ny))
                 d[nx][ny] = d[p[0]][p[1]]+1
 
     return d[gx][gy]
 
-n, m = map(int, input().split())
-c = list(map(lambda x:int(x)-1,input().split()))
-g = list(map(lambda x:int(x)-1,input().split()))
-maze = [list(input()) for i in range(n)]
+h, w = map(int, input().split())
+sx,sy = map(lambda x:int(x)-1,input().split())
+gx,gy = map(lambda x:int(x)-1,input().split())
+s = [list(input()) for i in range(h)]
 
 ans = bfs()
 if ans == -1:
