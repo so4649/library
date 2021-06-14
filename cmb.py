@@ -11,7 +11,7 @@ def p(n, r):
     if r < 0 or n < 0 or n < r:
         return 0
     return g1[n] * g2[n-r] % mod
-mod = 10**9+7 #出力の制限
+mod = 10**9+7
 N = 5*10**5 #Nの最大値
 g1 = [0]*(N+1) #元テーブル(p(n,r))
 g1[0] = g1[1] = 1
