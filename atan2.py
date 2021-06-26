@@ -13,6 +13,8 @@ def atan2_sort(coords):
             x2, y2 = p2
             if x1 * y2 - y1 * x2 < 0: return 1
             elif x1 * y2 - y1 * x2 > 0: return -1
+            elif x1**2+y1**2 > x2**2+y2**2: return 1
+            elif x1**2+y1**2 < x2**2+y2**2: return -1
             else: return 0
 
     quadrant = [[] for i in range(4)]
