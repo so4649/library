@@ -245,3 +245,15 @@ else:
     print(*sol)
     for v in vecs:
         print(*v)
+
+
+
+# 2進数を要素とした1次元配列で表された行列のxor演算した時のrank
+def xor_rank(A):
+    base = []
+    for i in A:
+        for j in base:
+            i = min(A,A^j)
+        if i:
+            base.append(i)
+    return len(base)
