@@ -253,7 +253,7 @@ def xor_rank(A):
     base = []
     for i in A:
         for j in base:
-            i = min(A,A^j)
+            i = min(i,i^j)
         if i:
             base.append(i)
     return len(base)
