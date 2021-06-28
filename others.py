@@ -46,6 +46,16 @@ for i in range(17):
         po[i][j] %= mod
 
 
+# 10進数をn進数に変換(strで出力)
+# なお、n進数を10進数にするのはint(str,n)でできる
+def Base_p(num,p):
+    res = []
+    while num:
+        res.append(str(num%p))
+        num //= p
+    return "".join(res[::-1])
+
+
 # ソートされた2つの配列をあわせる
 def merge(s, t):
     u = list()
@@ -86,3 +96,7 @@ syo,amari = divmod(10,3)
 s = "abcdefgabcdefg"
 # 開始位置を探索。ここではx = 3
 x = s.find("def")
+
+
+# ランダムケーステスト
+# oj g/i -c "python a.py" --hack "python b.py" "python generate.py"
