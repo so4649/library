@@ -49,6 +49,8 @@ for i in range(17):
 # 10進数をn進数に変換(strで出力)
 # なお、n進数を10進数にするのはint(str,n)でできる
 def Base_p(num,p):
+    if num == 0:
+        return "0"
     res = []
     while num:
         res.append(str(num%p))
