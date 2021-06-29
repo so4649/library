@@ -11,10 +11,11 @@ parent = [-1] * n
 q = deque([0])
 while q:
     i = q.popleft()
-    for a in edge[i]:
-        if a != parent[i]:
-            parent[a] = i
-            q.append(a)
+    for j in edge[i]:
+        if j == parent[i]:
+            continue
+        parent[j] = i
+        q.append(j)
 print(parent)
 
 
