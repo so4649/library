@@ -46,9 +46,6 @@ class UnionFind():
     def __str__(self):
         return '\n'.join('{}: {}'.format(r, self.all_group_members()[r]) for r in self.roots())
 
-#URL
-#https://note.nkmk.me/python-union-find/
-
 uf = UnionFind(6)
 print(uf.parents)
 # [-1, -1, -1, -1, -1, -1]
@@ -86,60 +83,45 @@ print(uf.all_group_members())
 
 
 
-
-
 # 部分永続Union-Find (partially persistent union-find)
-# O(logN)
+# 最新の時刻の結合を加えていき過去の状態も見れるunionfind
 
-# N: 頂点数
-# p[u]: 頂点uの親頂点
-# sz[u]: 現在の親頂点uの木が含む頂点数
-# H[u]: 現在の親頂点uの木の高さ
-# S[u] = [(t, s), ...]:
-#     時刻tに別の頂点をマージした親頂点uの木が含む頂点数s
-# T[u]: 頂点uが親頂点でなくなる時刻
+# https://neterukun1993.github.io/Library/DataStructure/UnionFind/PartiallyPersistentUnionFind.py
 
-from bisect import bisect
-INF = 1e18
-class PP_UnionFind():
-    def __init__(self, N):
-        self.N = N
-        *self.p, = range(self.N)
-        self.sz = [1]*self.N
-        self.H = [1]*self.N
-        self.S = [[(0, 1)] for i in range(self.N)]
-        self.T = [INF]*self.N
+from bisect import bisect_left
 
-    def find(self, x, t):
-        while self.T[x] <= t:
-            x = self.p[x]
+class PartiallyPersistentUnionFind:
+    def __init__(self, n):
+        self.INF = 10 ** 9
+        self.parent = [-1] * n
+        self.time = [self.INF] * n
+        self.size = [[(-1, -1)] for i in range(n)]
+
+    def find(self, t, x):
+        while self.time[x] <= t:
+            x = self.parent[x]
         return x
 
-    def union(self, x, y, t):
-        px = self.find(x, t)
-        py = self.find(y, t)
-        if px == py:
-            return 0
-        if self.H[py] < self.H[px]:
-            self.p[py] = px
-            self.T[py] = t
-            self.sz[px] += self.sz[py]
-            self.S[px].append((t, self.sz[px]))
-        else:
-            self.p[px] = py
-            self.T[px] = t
-            self.sz[py] += self.sz[px]
-            self.S[py].append((t, self.sz[py]))
-            self.H[py] = max(self.H[py], self.H[px]+1)
-        return 1
+    def merge(self, t, x, y):
+        x = self.find(t, x)
+        y = self.find(t, y)
+        if x == y:
+            return False
+        if self.parent[x] > self.parent[y]:
+            x, y = y, x
+        self.parent[x] += self.parent[y]
+        self.size[x].append((t, self.parent[x]))
+        self.parent[y] = x
+        self.time[y] = t
+        return True
 
-    def size(self, x, t):
-        y = self.find(x, t)
-        idx = bisect(self.S[y], (t, INF))-1
-        print(self.S)
-        return self.S[y][idx][1]
+    def same(self, t, x, y):
+        return self.find(t, x) == self.find(t, y)
 
-
+    def size(self, t, x):
+        x = self.find(t, x)
+        idx = bisect_left(self.size[x], (t, self.INF)) - 1
+        return -self.size[x][idx][1]
 
 
 
@@ -193,3 +175,46 @@ class W_UnionFind:
     
     def same(self,x,y):
         return self.root(x)==self.root(y)
+
+
+
+# 巻き戻し可能Union Find
+# https://neterukun1993.github.io/Library/DataStructure/UnionFind/UnionFindUndo.py
+
+class UnionFindUndo:
+    def __init__(self, n):
+        self.parent = [-1] * n
+        self.history = []
+
+    def root(self, x):
+        if self.parent[x] < 0:
+            return x
+        else:
+            return self.root(self.parent[x])
+
+    def merge(self, x, y):
+        x = self.root(x)
+        y = self.root(y)
+        self.history.append((x, self.parent[x]))
+        self.history.append((y, self.parent[y]))
+        if x == y:
+            return False
+        if self.parent[x] > self.parent[y]:
+            x, y = y, x
+        self.parent[x] += self.parent[y]
+        self.parent[y] = x
+        return True
+
+    def undo(self):
+        if not self.history:
+            return False
+        for _ in range(2):
+            x, par_x = self.history.pop()
+            self.parent[x] = par_x
+        return True
+
+    def same(self, x, y):
+        return self.root(x) == self.root(y)
+
+    def size(self, x):
+        return -self.parent[self.root(x)]

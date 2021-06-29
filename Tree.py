@@ -207,3 +207,47 @@ class HLDecomposition:
 
     def range_subtree(self, u):
         return self.preorder[u], self.preorder[u] + self.size[u]
+
+# ABC202E
+n = int(input())
+p = [-1]+list(map(lambda x:int(x)-1,input().split()))
+
+edge = [[] for i in range(n)]
+for i in range(1,n):
+    edge[i].append(p[i])
+    edge[p[i]].append(i)
+
+hl = HLDecomposition(edge)
+
+q = int(input())
+
+query = [[] for i in range(n)]
+for i in range(q):
+    u,d = map(int,input().split())
+    u -= 1
+    query[d].append((u,i))
+
+for i in range(n):
+    query[i].sort(key=lambda x:hl.__getitem__(x[0]))
+
+depth = hl.depth
+dist_v = [[] for i in range(n)]
+for i in range(n):
+    dist_v[depth[i]].append(i)
+
+ans = [0]*q
+bit = BIT(n)
+
+# 距離ごと
+for i in range(n):
+    for j in dist_v[i]:
+        bit.add(hl.__getitem__(j),1)
+
+    for u,idx in query[i]:
+        l,r = tuple(hl.range_subtree(u))
+        ans[idx] = bit.get(l,r)
+
+    for j in dist_v[i]:
+        bit.add(hl.__getitem__(j),-1)
+
+print(*ans)
