@@ -76,6 +76,14 @@ def merge(s, t):
 
 
 # xの立っているビット数をカウントする
+# 64bit
+def popcount(i):
+    i = (i&0x5555555555555555) + ((i>>1)&0x5555555555555555)
+    i = (i&0x3333333333333333) + ((i>>2)&0x3333333333333333)
+    i = i + (i>>4)&0xF0F0F0F0F0F0F0F
+    i = i + (i>>32)&0xFFFFFFFF
+    return ((i * 0x1010101) & 0xFFFFFFFF) >> 24
+# O(logx)だけどそこそこ早い
 def popcount(x):
     return bin(x).count("1")
 
