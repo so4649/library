@@ -35,9 +35,10 @@ from collections import defaultdict
 import heapq
 
 class LazyHeap():
-    def __init__(self, init_arr=[]):
+    def __init__(self, init_arr=[], desc=False):
         self.heap = []
         self.lazy = defaultdict(int)
+        self.sign = -1 if desc else 1
         self.len = 0
         for init_element in init_arr:
             heapq.heappush(self.heap, init_element)
@@ -47,16 +48,16 @@ class LazyHeap():
         return self.len
  
     def push(self, k):
-        heapq.heappush(self.heap, k)
+        heapq.heappush(self.heap, k * self.sign)
         self.len += 1
  
     def pop(self):
         self._clear()
-        return heapq.heappop(self.heap)
+        return heapq.heappop(self.heap) * self.sign
         
     def top(self):
         self._clear()
-        return self.heap[0]
+        return self.heap[0] * self.sign
  
     def _clear(self):
         while True:
@@ -69,7 +70,7 @@ class LazyHeap():
                 return
  
     def remove(self, k):
-        self.lazy[k] += 1
+        self.lazy[k * self.sign] += 1
         self.len -= 1
 
 a = [1, 6, 8, 0, -1]
