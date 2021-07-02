@@ -1,0 +1,301 @@
+{
+	// Place your snippets for python here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+
+	// ""の中に""を入れるには\を前において"をただの文字として扱うか、代えて''を使う必要がある
+	// 改行は"",で区切るか、\nを入れる
+	// インデントは\tを入れる
+
+	"input": {
+		"prefix": "inp",
+		"body": [
+			"input()",
+		],
+		"description": ""
+	},
+	"int-input": {
+		"prefix": "in",
+		"body": [
+			"int(input())",
+		],
+		"description": ""
+	},
+	"map-int-input": {
+		"prefix": "ma",
+		"body": [
+			"map(int,input().split())",
+		],
+		"description": ""
+	},
+	"zero-indexed-map-int-input": {
+		"prefix": "zeroma",
+		"body": [
+			"map(lambda x:int(x)-1,input().split())",
+		],
+		"description": ""
+	},
+	"list-map-int-input": {
+		"prefix": "li",
+		"body": [
+			"list(map(int,input().split()))",
+		],
+		"description": ""
+	},
+	"zero-indexed-list-map-int-input": {
+		"prefix": "zeroli",
+		"body": [
+			"list(map(lambda x:int(x)-1,input().split()))",
+		],
+		"description": ""
+	},
+	"tuple-map-int-input": {
+		"prefix": "tuple-input",
+		"body": [
+			"tuple(map(int,input().split()))",
+		],
+		"description": ""
+	},
+	"[tuple": {
+		"prefix": "[tuple",
+		"body": [
+			"[tuple(map(int,input().split())) for i in range($1)",
+		],
+		"description": ""
+	},
+	"zero-indexed-tuple-map-int-input": {
+		"prefix": "zerotup",
+		"body": [
+			"tuple(map(lambda x:int(x)-1,input().split()))",
+		],
+		"description": ""
+	},
+	"fast-input": {
+		"prefix": "readline",
+		"body": [
+			"import sys",
+			"sys.setrecursionlimit(10**7)",
+			"input = sys.stdin.readline",
+		],
+		"description": ""
+	},
+	"fast-input-codeforces": {
+		"prefix": "readline2",
+		"body": [
+			"import sys",
+			"input = sys.stdin.readline",
+		],
+		"description": ""
+	},
+	"yes": {
+		"prefix": "ye",
+		"body": [
+			"print('Yes')",
+		],
+		"description": ""
+	},
+	"no": {
+		"prefix": "no",
+		"body": [
+			"print('No')",
+		],
+		"description": ""
+	},
+	"print-ans": {
+		"prefix": "pri",
+		"body": [
+			"print(ans)",
+		],
+		"description": ""
+	},
+	"fort": {
+		"prefix": "fort",
+		"body": [
+			"for _ in range(t):",
+		],
+		"description": ""
+	},
+	"inf": {
+		"prefix": "inf",
+		"body": [
+			"float(\"inf\")",
+		],
+		"description": ""
+	},
+	"-inf": {
+		"prefix": "-inf",
+		"body": [
+			"-float(\"inf\")",
+		],
+		"description": ""
+	},
+	"ruiseki_template": {
+		"prefix": "ruiseki_template",
+		"body": [
+			"ruiseki = [0]*(n+1)",
+			"for i in range(n):",
+			"\truiseki[i+1] = ruiseki[i]+a[i]",
+		],
+		"description": ""
+	},
+	"bit_search": {
+		"prefix": "bit_search",
+		"body": [
+			"for bit in range(1 << n):",
+    		"\tfor i in range(n):",
+        	"\t\tif bit & (1 << i):"
+		],
+		"description": ""
+	},
+	"compression": {
+        "prefix": "compression",
+        "body": [
+            "sa = sorted(set(a)) # 元の数字に戻すときに使える",
+            "dic = {a:i for i,a in enumerate(sa)} # 座圧に変換する用",
+            "new_a = [dic[i] for i in a]",
+        ],
+        "description": ""
+    },
+	"unionfind": {
+        "prefix": "unionfind",
+        "body": [
+            "class UnionFind():",
+            "    def __init__(self, n):",
+            "        self.n = n",
+            "        self.parents = [-1] * n",
+            "",
+            "    def find(self, x):",
+            "        while self.parents[x] >= 0:",
+            "            x = self.parents[x]",
+            "        return x",
+            "",
+            "    def union(self, x, y):",
+            "        x = self.find(x)",
+            "        y = self.find(y)",
+            "",
+            "        if x == y:",
+            "            return",
+            "",
+            "        if self.parents[x] > self.parents[y]:",
+            "            x, y = y, x",
+            "",
+            "        self.parents[x] += self.parents[y]",
+            "        self.parents[y] = x",
+            "",
+            "    def size(self, x):",
+            "        return -self.parents[self.find(x)]",
+            "",
+            "    def same(self, x, y):",
+            "        return self.find(x) == self.find(y)",
+            "",
+            "    def members(self, x):",
+            "        root = self.find(x)",
+            "        return [i for i in range(self.n) if self.find(i) == root]",
+            "",
+            "    def roots(self):",
+            "        return [i for i, x in enumerate(self.parents) if x < 0]",
+            "",
+            "    def group_count(self):",
+            "        return len(self.roots())",
+            "",
+            "    def all_group_members(self):",
+            "        self.group = {r:[] for r in self.roots()}",
+            "        for i in range(self.n):",
+            "            self.group[self.find(i)].append(i)",
+            "        return self.group",
+            "",
+            "    def __str__(self):",
+            "        return '\\n'.join('{}: {}'.format(r, self.all_group_members()[r]) for r in self.roots())",
+            "",
+        ],
+        "description": ""
+    },
+    "dijkstra_snippet": {
+        "prefix": "dijkstra_snippet",
+        "body": [
+            "import heapq",
+            "INF = 10**15",
+            "def dijkstra(N,start,edge):",
+            "    hq = [(0, start,)]",
+            "    dist = [INF] * N",
+            "    dist[start] = 0",
+            "    while hq:",
+            "        c, v = heapq.heappop(hq)",
+            "        if c > dist[v]:",
+            "            continue",
+            "        for d, u in edge[v]:",
+            "            tmp = d + dist[v]",
+            "            if tmp < dist[u]:",
+            "                dist[u] = tmp",
+            "                heapq.heappush(hq, (tmp, u))",
+            "    return dist",
+            "        ",
+        ],
+        "description": ""
+    },
+	"lru": {
+        "prefix": "lru",
+        "body": [
+            "from functools import lru_cache",
+            "",
+            "@lru_cache(None)",
+            "def f():",
+        ],
+        "description": ""
+    },
+	"vector": {
+        "prefix": "vector",
+        "body": [
+            "vec = [(1,0),(-1,0),(0,1),(0,-1)]",
+        ],
+        "description": ""
+    },
+	"binary": {
+        "prefix": "binary",
+        "body": [
+            "def binary_search_func(ok, ng, f):",
+            "    while(abs(ok - ng) > 1):",
+            "        med = (ok + ng) // 2",
+            "        if f(med) == True:",
+            "            ok = med",
+            "        else:",
+            "            ng = med",
+            "    return ok",
+        ],
+        "description": ""
+    },
+	"bfs_dist": {
+        "prefix": "bfs_dist",
+        "body": [
+            "from collections import deque",
+            "",
+            "def bfs(N,edge,start=0):",
+            "    dist = [-1]*N",
+            "    que = deque([start])",
+            "    dist[start] = 0",
+            "    while que:",
+            "        v = que.popleft()",
+            "        d = dist[v]",
+            "        for w in edge[v]:",
+            "            if dist[w] > -1:",
+            "                continue",
+            "            dist[w] = d + 1",
+            "            que.append(w)",
+            "    return dist",
+        ],
+        "description": ""
+    },
+	"popcount_snippet": {
+        "prefix": "popcount_snippet",
+        "body": [
+            "def popcount(i):",
+            "    i = (i&0x5555555555555555) + ((i>>1)&0x5555555555555555)",
+            "    i = (i&0x3333333333333333) + ((i>>2)&0x3333333333333333)",
+            "    i = i + (i>>4)&0xF0F0F0F0F0F0F0F",
+            "    i = i + (i>>32)&0xFFFFFFFF",
+            "    return ((i * 0x1010101) & 0xFFFFFFFF) >> 24",
+        ],
+        "description": ""
+    },
+}
