@@ -31,7 +31,7 @@ print(hq.top(),len(hq))
 
 # https://socha77.hatenablog.com/entry/2020/06/17/012842
 # 遅延ヒープ
-from collections import defaultdict, deque
+from collections import defaultdict
 import heapq
 
 class LazyHeap():
