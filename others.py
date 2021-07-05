@@ -45,6 +45,16 @@ for i in range(17):
         po[i][j] = po[i][j-1]*i
         po[i][j] %= mod
 
+# 早いpow
+def fast_pow(x, k):
+    res = 1
+    while k:
+        if k & 1:
+            res = res * x % mod
+        x = x * x % mod
+        k >>= 1
+    return res
+
 
 # 10進数をn進数に変換(strで出力)
 # なお、n進数を10進数にするのはint(str,n)でできる
