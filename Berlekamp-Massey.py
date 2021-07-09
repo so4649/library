@@ -46,6 +46,7 @@ def berlekamp_massey(A):
     return res
 
 # BMして行列累乗しn項目を求める
+# O(d^3logN)
 def a_n(a,n):
     b = berlekamp_massey(a)
     if n < len(b):
@@ -59,7 +60,7 @@ def a_n(a,n):
 
 
 
-# -------------------------------------------------------------------------
+# -----------------------------------------------------------------------
 # Bostan-Mori法？を使う場合O(dlogdlogN)
 # Kth term of Linearly Recurrent Sequence　を利用
 # https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
@@ -913,3 +914,6 @@ def a_n(a,n):
         Q[i] = -c
     a = convolution(a, Q)[:d]
     return poly_coeff(Q, a, n)
+
+a = [0,1,2,3,4,5,6,7,8]
+print(a_n(a,20)) # 20

@@ -24,7 +24,7 @@ def mpow(A, n):
     return mpow(mmult(A, A), n//2)
 
 
-
+# ------------------------------------------------------------
 # 行列計算が便利なクラス
 # メソッドを定義している
 # https://judge.yosupo.jp/submission/45096
@@ -247,7 +247,7 @@ else:
         print(*v)
 
 
-
+# ------------------------------------------------------------------
 # 2進数を要素とした1次元配列で表された行列のxor演算した時のrank
 def xor_rank(A):
     base = []
@@ -283,7 +283,7 @@ else:
 
 
 
-
+# -----------------------------------------------------------
 # Bostan-Mori法？を使う場合O(klogklogN)
 # Kth term of Linearly Recurrent Sequence
 # https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
