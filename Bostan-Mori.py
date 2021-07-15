@@ -1090,31 +1090,31 @@ def convolution(a, b):
     res = [0] * (n + m - 1)
     for i, v in enumerate(zip(c1, c2, c3)):
         cr, cm = crt(v, (MOD1, MOD2, MOD3))
-        res[i] = cr % MOD
+        res[i] = cr % mod
     return res
 
 def linear_recurrence(a, c, n):
-    d = len(a)
+    d = len(c)-1
     if n < d:
         return a[n]
     q = c.copy()
     p = convolution(a, c)[:d]
     while n:
         # print(p, q)
-        r = [MOD - v if i & 1 else v for i, v in enumerate(q)]
+        r = [mod - v if i & 1 else v for i, v in enumerate(q)]
         p = convolution(p, r.copy())[(n & 1)::2]
         q = convolution(q, r)[::2]
         n >>= 1
-    return p[0] % MOD
+    return p[0] % mod
 
 import sys
 input = sys.stdin.readline
 
-MOD = 10**9+7
+mod = 998244353
 
 D, K = map(int, input().split())
 
 A = list(map(int, input().split()))
-C = [1] + list(map(lambda x: MOD - int(x), input().split()))
+C = [1] + list(map(lambda x: mod - int(x), input().split()))
 
 print(linear_recurrence(A, C, K))
