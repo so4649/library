@@ -1227,6 +1227,7 @@ def berlekamp_massey(A):
     res = [-c % mod for c in C[1:]]
     return res
 
+# 数列aの第n項目(0-indexed)を求める
 def a_n(a,n):
     b = berlekamp_massey(a)
     d = len(b)
