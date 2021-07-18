@@ -63,3 +63,27 @@ def binary_search(data, value):
             # 中央の値より小さい場合は探索範囲の右を変える
             right = mid - 1
     return -1            # 見つからなかった場合
+
+
+
+# 三分探索
+# r-l <= 1なので最後は区間のmin,maxを取る必要がある
+def ternary_search_min(l,r):
+    while r-l > 2:
+        m1 = (l*2+r)//3
+        m2 = (l+r*2)//3
+        if f(m1) < f(m2):
+            r = m2
+        else:
+            l = m1
+    return min(f(i) for i in range(l,r+1))
+
+def ternary_search_max(l,r):
+    while r-l > 2:
+        m1 = (l*2+r)//3
+        m2 = (l+r*2)//3
+        if f(m1) > f(m2):
+            r = m2
+        else:
+            l = m1
+    return max(f(i) for i in range(l,r+1))
