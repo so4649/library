@@ -1,8 +1,16 @@
 # https://neterukun1993.github.io/Library/DataStructure/SortedSet/SortedSetTreap.py
 
-from misc.xorshift import xorshift32
 from array import array
 
+def xorshift32():
+    y = 2463534242
+    def inner():
+        nonlocal y
+        y = y ^ (y << 13 & 0xFFFFFFFF)
+        y = y ^ (y >> 17 & 0xFFFFFFFF)
+        y = y ^ (y << 5 & 0xFFFFFFFF)
+        return y & 0xFFFFFFFF
+    return inner
 
 class SortedSetTreap:
     def __init__(self):
