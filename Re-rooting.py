@@ -78,8 +78,8 @@ unit = (0,0)
 def merge(a,b):
     return (a[0]+b[0],a[1]+b[1])
 
-# a:子のmerge情報　x:頂点の情報
-def addnode(a,x):
+# a:子のmerge情報　v:頂点の番号
+def addnode(a,v):
     return (a[0]+a[1],a[1]+1)
 
 ans = rerooting(n,edges,unit,merge,addnode)
