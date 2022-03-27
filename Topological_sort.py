@@ -12,7 +12,6 @@ def Topological_sort(V,edge):
 
     topo = list(i for i in range(V) if indegree[i]==0)
     q = deque(topo)
-    used = [0]*V
 
     while q:
         i = q.popleft()
